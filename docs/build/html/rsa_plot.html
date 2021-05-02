@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization for Results &#8212; NeuroRA 1.1.4.8 documentation</title>
+    <link rel="stylesheet" href="static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Others" href="stuff.html" />
+    <link rel="prev" title="Save the Results as a NIfTI file (for fMRI)" href="nii_save.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stuff.html" title="Others"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nii_save.html" title="Save the Results as a NIfTI file (for fMRI)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Visualization for Results</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="visualization-for-results">
+<h1>Visualization for Results<a class="headerlink" href="#visualization-for-results" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-neurora.rsa_plot">
+<span id="neurora-rsa-plot-module"></span><h2>neurora.rsa_plot module<a class="headerlink" href="#module-neurora.rsa_plot" title="Permalink to this headline">¶</a></h2>
+<p>a module for plotting the NeuroRA results</p>
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_brainrsa_glass">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_brainrsa_glass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_brainrsa_glass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the 2-D projection of the RSA-result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>string</em>) – The file path of the .nii file of the RSA results.</p></li>
+<li><p><strong>threshold</strong> (<em>None</em><em> or </em><em>int. Default is None.</em>) – The threshold of the number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than threshold voxels will be visible. If it is
+None, the threshold-correction will not work.</p></li>
+<li><p><strong>type</strong> (<em>string 'r'</em><em> or </em><em>'t'</em>) – The type of result (r-values or t-values).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_brainrsa_montage">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_brainrsa_montage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">slice</span><span class="o">=</span><span class="default_value">[6, 6, 6]</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">'/Users/zitonglu/anaconda3/lib/python3.7/site-packages/neurora/template/ch2bet.nii.gz'</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_brainrsa_montage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RSA-result by different cuts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>string</em>) – The file path of the .nii file of the RSA results.</p></li>
+<li><p><strong>threshold</strong> (<em>None</em><em> or </em><em>int. Default is None.</em>) – The threshold of the number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than threshold voxels will be visible. If it is
+None, the threshold-correction will not work.</p></li>
+<li><p><strong>slice</strong> (<em>array</em>) – The point where the cut is performed.
+If slice=[slice_x, slice_y, slice_z], slice_x, slice_y, slice_z represent the coordinates of each cut in the x,
+y, z direction. If slice=[[slice_x1, slice_x2], [slice_y1, slice_y2], [slice_z1, slice_z2]], slice_x1 &amp; slice_x2
+represent the coordinates of each cut in the x direction, slice_y1 &amp; slice_y2 represent the coordinates of each
+cut in the y direction, slice_z1 &amp; slice_z2 represent the coordinates of each cut in the z direction.</p></li>
+<li><p><strong>background</strong> (<em>Niimg-like object</em><em> or </em><em>string. Default is stuff.get_bg_ch2bet</em><em>(</em><em>)</em>) – The background image that the RSA results will be plotted on top of.</p></li>
+<li><p><strong>type</strong> (<em>string 'r'</em><em> or </em><em>'t'</em>) – The type of result (r-values or t-values).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_brainrsa_regions">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_brainrsa_regions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">'/Users/zitonglu/anaconda3/lib/python3.7/site-packages/neurora/template/ch2.nii.gz'</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_brainrsa_regions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RSA-result regions by 3 cuts (frontal, axial &amp; lateral)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>string</em>) – The file path of the .nii file of the RSA results.</p></li>
+<li><p><strong>threshold</strong> (<em>None</em><em> or </em><em>int. Default is None.</em>) – The threshold of the number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than threshold voxels will be visible. If it is
+None, the threshold-correction will not work.</p></li>
+<li><p><strong>background</strong> (<em>Niimg-like object</em><em> or </em><em>string. Default is stuff.get_bg_ch2</em><em>(</em><em>)</em>) – The background image that the RSA results will be plotted on top of.</p></li>
+<li><p><strong>type</strong> (<em>string 'r'</em><em> or </em><em>'t'</em>) – The type of result (r-values or t-values).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_brainrsa_rlts">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_brainrsa_rlts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">slice</span><span class="o">=</span><span class="default_value">[6, 6, 6]</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_brainrsa_rlts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RSA-result by a set of images</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>string</em>) – The file path of the .nii file of the RSA results.</p></li>
+<li><p><strong>threshold</strong> (<em>None</em><em> or </em><em>int. Default is None.</em>) – The threshold of the number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than threshold voxels will be visible. If it is
+None, the threshold-correction will not work.</p></li>
+<li><p><strong>background</strong> (<em>Niimg-like object</em><em> or </em><em>string. Default is None.</em>) – The background image that the RSA results will be plotted on top of.</p></li>
+<li><p><strong>type</strong> (<em>string 'r'</em><em> or </em><em>'t'</em>) – The type of result (r-values or t-values).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_brainrsa_surface">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_brainrsa_surface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'r'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_brainrsa_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RSA-result into a brain surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>string</em>) – The file path of the .nii file of the RSA results.</p></li>
+<li><p><strong>threshold</strong> (<em>None</em><em> or </em><em>int. Default is None.</em>) – The threshold of the number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than threshold voxels will be visible. If it is
+None, the threshold-correction will not work.</p></li>
+<li><p><strong>type</strong> (<em>string 'r'</em><em> or </em><em>'t'</em>) – The type of result (r-values or t-values).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_corrs_by_time">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_corrs_by_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">corrs</span></em>, <em class="sig-param"><span class="n">labels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_unit</span><span class="o">=</span><span class="default_value">[0, 0.1]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_corrs_by_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the correlation coefficients by time sequence</p>
+<dl class="simple">
+<dt>corrs<span class="classifier">array</span></dt><dd><p>The correlation coefficients time-by-time.
+The shape of corrs must be [n, ts, 2] or [n, ts]. n represents the number of curves of the correlation
+coefficient by time sequence. ts represents the time-points. If shape of corrs is [n, ts 2], each time-point
+of each correlation coefficient curve contains a r-value and a p-value. If shape is [n, ts], only r-values.</p>
+</dd>
+<dt>label<span class="classifier">string-array or string-list or None. Default is None.</span></dt><dd><p>The label for each corrs curve.
+If label=None, no legend in the figure.</p>
+</dd>
+<dt>time_unit<span class="classifier">array or list [start_t, t_step]. Default is [0, 0.1]</span></dt><dd><p>The time information of corrs for plotting
+start_t represents the start time and t_step represents the time between two adjacent time-points. Default
+time_unit=[0, 0.1], which means the start time of corrs is 0 sec and the time step is 0.1 sec.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_corrs_hotmap">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_corrs_hotmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">corrs</span></em>, <em class="sig-param"><span class="n">chllabels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_unit</span><span class="o">=</span><span class="default_value">[0, 0.1]</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[0, 1]</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_corrs_hotmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the hotmap of correlation coefficients for channels/regions by time sequence</p>
+<dl class="simple">
+<dt>corrs<span class="classifier">array</span></dt><dd><p>The correlation coefficients time-by-time.
+The shape of corrs must be [n_chls, ts, 2] or [n_chls, ts]. n_chls represents the number of channels or
+regions. ts represents the number of time-points. If shape of corrs is [n_chls, ts 2], each time-point
+of each channel/region contains a r-value and a p-value. If shape is [n_chls, ts], only r-values.</p>
+</dd>
+<dt>chllabel<span class="classifier">string-array or string-list or None. Default is None.</span></dt><dd><p>The label for channels/regions.
+If label=None, the labels will be ‘1st’, ‘2nd’, ‘3th’, ‘4th’, … automatically.</p>
+</dd>
+<dt>time_unit<span class="classifier">array or list [start_t, t_step]. Default is [0, 0.1]</span></dt><dd><p>The time information of corrs for plotting
+start_t represents the start time and t_step represents the time between two adjacent time-points. Default
+time_unit=[0, 0.1], which means the start time of corrs is 0 sec and the time step is 0.1 sec.</p>
+</dd>
+<dt>lim<span class="classifier">array or list [min, max]. Default is [0, 1].</span></dt><dd><p>The corrs view lims.</p>
+</dd>
+<dt>smooth<span class="classifier">bool True or False. Default is False.</span></dt><dd><p>Smooth the results or not.</p>
+</dd>
+<dt>figsize<span class="classifier">array or list, [size_X, size_Y]</span></dt><dd><p>The size of the figure.
+If figsize=None, the size of the figure will be ajusted automatically.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib colormap or None. Default is None.</span></dt><dd><p>The colormap for the figure.
+If cmap=None, the ccolormap will be ‘inferno’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_corrs_hotmap_stats">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_corrs_hotmap_stats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">corrs</span></em>, <em class="sig-param"><span class="n">stats</span></em>, <em class="sig-param"><span class="n">chllabels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_unit</span><span class="o">=</span><span class="default_value">[0, 0.1]</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[0, 1]</span></em>, <em class="sig-param"><span class="n">p_threshold</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">time_threshold</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_corrs_hotmap_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the hotmap of correlation coefficients for channels/regions by time sequence with the significant outline</p>
+<dl class="simple">
+<dt>corrs<span class="classifier">array</span></dt><dd><p>The correlation coefficients time-by-time.
+The shape of corrs must be [n_chls, ts, 2] or [n_chls, ts]. n_chls represents the number of channels or
+regions. ts represents the number of time-points. If shape of corrs is [n_chls, ts 2], each time-point
+of each channel/region contains a r-value and a p-value. If shape is [n_chls, ts], only r-values.</p>
+</dd>
+<dt>stats<span class="classifier">array</span></dt><dd><p>The statistical results.
+The shape of stats must be [n_chls, ts, 2]. n_chls represents the number of channels or regions.
+ts represents the number of time-points. 2 represents a t-value and a p-value.</p>
+</dd>
+<dt>chllabel<span class="classifier">string-array or string-list or None. Default is None.</span></dt><dd><p>The label for channels/regions.
+If label=None, the labels will be ‘1st’, ‘2nd’, ‘3th’, ‘4th’, … automatically.</p>
+</dd>
+<dt>time_unit<span class="classifier">array or list [start_t, t_step]. Default is [0, 0.1]</span></dt><dd><p>The time information of corrs for plotting
+start_t represents the start time and t_step represents the time between two adjacent time-points. Default
+time_unit=[0, 0.1], which means the start time of corrs is 0 sec and the time step is 0.1 sec.</p>
+</dd>
+<dt>lim<span class="classifier">array or list [min, max]. Default is [0, 1].</span></dt><dd><p>The corrs view lims.</p>
+</dd>
+<dt>p_threshold: float. Default is 0.05.</dt><dd><p>The p threshold for outline.</p>
+</dd>
+<dt>time_threshold: int. Default is 5.</dt><dd><p>The time threshold for outline.
+If threshold=5, the time threshold is a window of 5 time-points for each channel/region.</p>
+</dd>
+<dt>smooth<span class="classifier">bool True or False. Default is False.</span></dt><dd><p>Smooth the results or not.</p>
+</dd>
+<dt>figsize<span class="classifier">array or list, [size_X, size_Y]</span></dt><dd><p>The size of the figure.
+If figsize=None, the size of the figure will be ajusted automatically.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib colormap or None. Default is None.</span></dt><dd><p>The colormap for the figure.
+If cmap=None, the ccolormap will be ‘inferno’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_nps_hotmap">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_nps_hotmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">similarities</span></em>, <em class="sig-param"><span class="n">chllabels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_unit</span><span class="o">=</span><span class="default_value">[0, 0.1]</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[0, 1]</span></em>, <em class="sig-param"><span class="n">abs</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_nps_hotmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the hotmap of neural pattern similarities for channels/regions by time sequence</p>
+<dl class="simple">
+<dt>similarities<span class="classifier">array</span></dt><dd><p>The neural pattern similarities time-by-time.
+The shape of similarities must be [n_chls, ts]. n_chls represents the number of channels or regions.
+ts represents the number of time-points.</p>
+</dd>
+<dt>chllabel<span class="classifier">string-array or string-list or None. Default is None.</span></dt><dd><p>The label for channels/regions.
+If label=None, the labels will be ‘1st’, ‘2nd’, ‘3th’, ‘4th’, … automatically.</p>
+</dd>
+<dt>time_unit<span class="classifier">array or list [start_t, t_step]. Default is [0, 0.1]</span></dt><dd><p>The time information of corrs for plotting
+start_t represents the start time and t_step represents the time between two adjacent time-points. Default
+time_unit=[0, 0.1], which means the start time of corrs is 0 sec and the time step is 0.1 sec.</p>
+</dd>
+<dt>lim<span class="classifier">array or list [min, max]. Default is [0, 1].</span></dt><dd><p>The corrs view lims.</p>
+</dd>
+<dt>abs<span class="classifier">boolean True or False. Default is False.</span></dt><dd><p>Change the similarities into absolute values or not.</p>
+</dd>
+<dt>smooth<span class="classifier">boolean True or False. Default is False.</span></dt><dd><p>Smooth the results or not.</p>
+</dd>
+<dt>figsize<span class="classifier">array or list, [size_X, size_Y]</span></dt><dd><p>The size of the figure.
+If figsize=None, the size of the figure will be ajusted automatically.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib colormap or None. Default is None.</span></dt><dd><p>The colormap for the figure.
+If cmap=None, the ccolormap will be ‘viridis’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_rdm">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_rdm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rdm</span></em>, <em class="sig-param"><span class="n">percentile</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rescale</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[0, 1]</span></em>, <em class="sig-param"><span class="n">conditions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">con_fontsize</span><span class="o">=</span><span class="default_value">12</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_rdm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RDM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdm</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>n_cons</em><em>, </em><em>n_cons</em><em>]</em>) – A representational dissimilarity matrix.</p></li>
+<li><p><strong>percentile</strong> (<em>bool True</em><em> or </em><em>False. Default is False.</em>) – Rescale the values in RDM or not by displaying the percentile.</p></li>
+<li><p><strong>rescale</strong> (<em>bool True</em><em> or </em><em>False. Default is False.</em>) – Rescale the values in RDM or not.
+Here, the maximum-minimum method is used to rescale the values except for the
+values on the diagnal.</p></li>
+<li><p><strong>lim</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>min</em><em>, </em><em>max</em><em>]</em><em> Default is</em><em> [</em><em>0</em><em>, </em><em>1</em><em>]</em><em></em>) – The corrs view lims.</p></li>
+<li><p><strong>conditions</strong> (<em>string-array</em><em> or </em><em>string-list. Default is None.</em>) – The labels of the conditions for plotting.
+conditions should contain n_cons strings, If conditions=None, the labels of conditions will be invisible.</p></li>
+<li><p><strong>con_fontsize</strong> (<em>int</em><em> or </em><em>float. Default is 12.</em>) – The fontsize of the labels of the conditions for plotting.</p></li>
+<li><p><strong>cmap</strong> (<em>matplotlib colormap. Default is None.</em>) – The colormap for RDM.
+If cmap=None, the ccolormap will be ‘jet’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_rdm_withvalue">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_rdm_withvalue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rdm</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[0, 1]</span></em>, <em class="sig-param"><span class="n">value_fontsize</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">conditions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">con_fontsize</span><span class="o">=</span><span class="default_value">12</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_rdm_withvalue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the RDM with values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rdm</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>n_cons</em><em>, </em><em>n_cons</em><em>]</em>) – A representational dissimilarity matrix.</p></li>
+<li><p><strong>lim</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>min</em><em>, </em><em>max</em><em>]</em><em> Default is</em><em> [</em><em>0</em><em>, </em><em>1</em><em>]</em><em></em>) – The corrs view lims.</p></li>
+<li><p><strong>value_fontsize</strong> (<em>int</em><em> or </em><em>float. Default is 10.</em>) – The fontsize of the values on the RDM.</p></li>
+<li><p><strong>conditions</strong> (<em>string-array</em><em> or </em><em>string-list</em><em> or </em><em>None. Default is None.</em>) – The labels of the conditions for plotting.
+conditions should contain n_cons strings, If conditions=None, the labels of conditions will be invisible.</p></li>
+<li><p><strong>con_fontsize</strong> (<em>int</em><em> or </em><em>float. Default is 12.</em>) – The fontsize of the labels of the conditions for plotting.</p></li>
+<li><p><strong>cmap</strong> (<em>matplotlib colormap</em><em> or </em><em>None. Default is None.</em>) – The colormap for RDM.
+If cmap=None, the ccolormap will be ‘Greens’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_stats_hotmap">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_stats_hotmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stats</span></em>, <em class="sig-param"><span class="n">chllabels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_unit</span><span class="o">=</span><span class="default_value">[0, 0.1]</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[- 7, 7]</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">outline</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">p_threshold</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">time_threshold</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_stats_hotmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the hotmap of statistical results for channels/regions by time sequence</p>
+<dl class="simple">
+<dt>stats<span class="classifier">array</span></dt><dd><p>The statistical results.
+The shape of stats must be [n_chls, ts, 2]. n_chls represents the number of channels or regions.
+ts represents the number of time-points. 2 represents a t-value and a p-value.</p>
+</dd>
+<dt>chllabel<span class="classifier">string-array or string-list or None. Default is None.</span></dt><dd><p>The label for channels/regions.
+If label=None, the labels will be ‘1st’, ‘2nd’, ‘3th’, ‘4th’, … automatically.</p>
+</dd>
+<dt>time_unit<span class="classifier">array or list [start_t, t_step]. Default is [0, 0.1]</span></dt><dd><p>The time information of corrs for plotting
+start_t represents the start time and t_step represents the time between two adjacent time-points. Default
+time_unit=[0, 0.1], which means the start time of corrs is 0 sec and the time step is 0.1 sec.</p>
+</dd>
+<dt>lim<span class="classifier">array or list [min, max]. Default is [-7, -7].</span></dt><dd><p>The corrs view lims.</p>
+</dd>
+<dt>smooth<span class="classifier">boolean True or False. Default is False.</span></dt><dd><p>Smooth the results or not.</p>
+</dd>
+<dt>figsize<span class="classifier">array or list, [size_X, size_Y]</span></dt><dd><p>The size of the figure.
+If figsize=None, the size of the figure will be ajusted automatically.</p>
+</dd>
+<dt>cmap<span class="classifier">matplotlib colormap or None. Default is None.</span></dt><dd><p>The colormap for the figure.
+If cmap=None, the ccolormap will be ‘bwr’.</p>
+</dd>
+<dt>outline<span class="classifier">bool True or False. Default is False.</span></dt><dd><p>Outline the significant areas or not.</p>
+</dd>
+<dt>p_threshold: float. Default is 0.05.</dt><dd><p>The p threshold for outline.</p>
+</dd>
+<dt>time_threshold: int. Default is 5.</dt><dd><p>The time threshold for outline.
+If threshold=5, the time threshold is a window of 5 time-points for each channel/region.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.rsa_plot.plot_tbytsim_withstats">
+<code class="sig-prename descclassname">neurora.rsa_plot.</code><code class="sig-name descname">plot_tbytsim_withstats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Similarities</span></em>, <em class="sig-param"><span class="n">start_time</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'r'</span></em>, <em class="sig-param"><span class="n">lim</span><span class="o">=</span><span class="default_value">[- 0.1, 0.8]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.rsa_plot.plot_tbytsim_withstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the time-by-time Similarities averaging all subjects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Similarities</strong> (<em>array</em>) – The Similarities.
+The size of Similarities should be [n_subs, n_ts] or [n_subs, n_ts, 2]. n_subs, n_ts represent the number of
+subjects and number of time-points. 2 represents the similarity and a p-value.</p></li>
+<li><p><strong>start_time</strong> (<em>int</em><em> or </em><em>float. Default is 0.</em>) – The start time.</p></li>
+<li><p><strong>end_time</strong> (<em>int</em><em> or </em><em>float. Default is 1.</em>) – The end time.</p></li>
+<li><p><strong>color</strong> (<em>matplotlib color</em><em> or </em><em>None. Default is 'r'.</em>) – The color for the curve.</p></li>
+<li><p><strong>lim</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>min</em><em>, </em><em>max</em><em>]</em><em> Default is</em><em> [</em><em>-0.1</em><em>, </em><em>0.8</em><em>]</em><em></em>) – The corrs view lims.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Visualization for Results</a><ul>
+<li><a class="reference internal" href="#module-neurora.rsa_plot">neurora.rsa_plot module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nii_save.html"
+                        title="previous chapter">Save the Results as a NIfTI file (for fMRI)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stuff.html"
+                        title="next chapter">Others</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/rsa_plot.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stuff.html" title="Others"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nii_save.html" title="Save the Results as a NIfTI file (for fMRI)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Visualization for Results</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Zitong Lu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

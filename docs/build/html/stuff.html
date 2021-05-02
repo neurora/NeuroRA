@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Others &#8212; NeuroRA 1.1.4.8 documentation</title>
+    <link rel="stylesheet" href="static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Visualization for Results" href="rsa_plot.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rsa_plot.html" title="Visualization for Results"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Others</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="others">
+<h1>Others<a class="headerlink" href="#others" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-neurora.stuff">
+<span id="neurora-stuff-module"></span><h2>neurora.stuff module<a class="headerlink" href="#module-neurora.stuff" title="Permalink to this headline">¶</a></h2>
+<p>a module for some simple but important processes</p>
+<dl class="py function">
+<dt id="neurora.stuff.correct_by_threshold">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">correct_by_threshold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">img</span></em>, <em class="sig-param"><span class="n">threshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.correct_by_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>correct the fMRI RSA results by threshold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>array</em>) – A 3-D array of the fMRI RSA results.
+The shape of img should be [nx, ny, nz]. nx, ny, nz represent the shape of the fMRI-img.</p></li>
+<li><p><strong>threshold</strong> (<em>int</em>) – The number of voxels used in correction.
+If threshold=n, only the similarity clusters consisting more than n voxels will be visualized.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>img</strong> – A 3-D array of the fMRI RSA results after correction.
+The shape of img should be [nx, ny, nz]. nx, ny, nz represent the shape of the fMRI-img.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.datamask">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">datamask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmri_data</span></em>, <em class="sig-param"><span class="n">mask_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.datamask" title="Permalink to this definition">¶</a></dt>
+<dd><p>filter the data by a ROI mask</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fmri_data</strong> (<em>array</em>) – The fMRI data.
+The shape of fmri_data is [nx, ny, nz]. nx, ny, nz represent the size of the fMRI data.</p></li>
+<li><p><strong>mask_data</strong> (<em>array</em>) – The mask data.
+The shape of mask_data is [nx, ny, nz]. nx, ny, nz represent the size of the fMRI data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>newfmri_data</strong> – The new fMRI data.
+The shape of newfmri_data is [nx, ny, nz]. nx, ny, nz represent the size of the fMRI data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.fdr_correct">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">fdr_correct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">p_threshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.fdr_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>FDR correction for fMRI RSA results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>array</em>) – The p-value map (3-D).</p></li>
+<li><p><strong>p_threshold</strong> (<em>string</em>) – The p threshold.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>correctp</strong> – The FDR corrected p-value map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.fisherz_rdm">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">fisherz_rdm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rdm</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.fisherz_rdm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fisher-Z transform of a RDM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rdm</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>n_cons</em><em>, </em><em>n_cons</em><em>]</em>) – A representational dissimilarity matrix.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>newrdm</strong> – A representational dissimilarity matrix after Fisher-Z transform.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array or list [n_cons, n_cons]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.fwe_correct">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">fwe_correct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">p_threshold</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.fwe_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>FWE correction for fMRI RSA results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>array</em>) – The p-value map (3-D).</p></li>
+<li><p><strong>p_threshold</strong> (<em>string</em>) – The p threshold.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>correctp</strong> – The FDR corrected p-value map.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.get_HOcort">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">get_HOcort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.get_HOcort" title="Permalink to this definition">¶</a></dt>
+<dd><p>get HarvardOxford-cort-maxprob-thr0-1mm.nii.gz</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>path</strong> – The absolute file path of ‘HarvardOxford-cort-maxprob-thr0-1mm.nii.gz’</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.get_affine">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">get_affine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.get_affine" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the affine of the fMRI-img</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>string</em>) – The filename of a sample fMRI-img in your experiment</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>affine</strong> – The position information of the fMRI-image array data in a reference space.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.get_bg_ch2">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">get_bg_ch2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.get_bg_ch2" title="Permalink to this definition">¶</a></dt>
+<dd><p>get ch2.nii.gz</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>path</strong> – The absolute file path of ‘ch2.nii.gz’</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.get_bg_ch2bet">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">get_bg_ch2bet</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.get_bg_ch2bet" title="Permalink to this definition">¶</a></dt>
+<dd><p>get ch2bet.nii.gz</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>path</strong> – The absolute file path of ‘ch2bet.nii.gz’</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.limtozero">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">limtozero</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.limtozero" title="Permalink to this definition">¶</a></dt>
+<dd><p>zero the value close to zero</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.mask_to">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">mask_to</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em>, <em class="sig-param"><span class="n">size</span></em>, <em class="sig-param"><span class="n">affine</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.mask_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert mask data of certain template to your data template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mask</strong> (<em>string</em>) – The file path+filename for the mask of certain template.</p></li>
+<li><p><strong>size</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>nx</em><em>, </em><em>ny</em><em>, </em><em>nz</em><em>]</em>) – The size of the fMRI-img in your experiments.</p></li>
+<li><p><strong>affine</strong> (<em>array</em><em> or </em><em>list</em>) – The position information of the fMRI-image array data in a reference space.</p></li>
+<li><p><strong>filename</strong> (<em>string. Default is None - 'newmask.nii'.</em>) – The file path+filename for the mask for your data template .nii file.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>A result .nii file of new mask will be generated at the corresponding address of filename.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="neurora.stuff.package_root">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">package_root</code><em class="property"> = '/Users/zitonglu/anaconda3/lib/python3.7/site-packages/neurora'</em><a class="headerlink" href="#neurora.stuff.package_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>a function for zeroing the value close to zero</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.permutation_corr">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">permutation_corr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'spearman'</span></em>, <em class="sig-param"><span class="n">iter</span><span class="o">=</span><span class="default_value">5000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.permutation_corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conduct Permutation test for correlation coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> (<em>array</em>) – Vector 1.</p></li>
+<li><p><strong>v2</strong> (<em>array</em>) – Vector 2.</p></li>
+<li><p><strong>iter</strong> (<em>int. Default is 5000.</em>) – The times for iteration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p</strong> – The permutation test result, p-value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.permutation_test">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">permutation_test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em>, <em class="sig-param"><span class="n">iter</span><span class="o">=</span><span class="default_value">5000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.permutation_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conduct Permutation test</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> (<em>array</em>) – Vector 1.</p></li>
+<li><p><strong>v2</strong> (<em>array</em>) – Vector 2.</p></li>
+<li><p><strong>iter</strong> (<em>int. Default is 5000.</em>) – The times for iteration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p</strong> – The permutation test result, p-value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stuff.position_to_mni">
+<code class="sig-prename descclassname">neurora.stuff.</code><code class="sig-name descname">position_to_mni</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point</span></em>, <em class="sig-param"><span class="n">affine</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stuff.position_to_mni" title="Permalink to this definition">¶</a></dt>
+<dd><p>project the position in matrix coordinate system to the position in MNI coordinate system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>list</em><em> or </em><em>array</em>) – The position in matrix coordinate system.</p></li>
+<li><p><strong>affine</strong> (<em>array</em><em> or </em><em>list</em>) – The position information of the fMRI-image array data in a reference space.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>newpoint</strong> – The position in MNI coordinate system.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Others</a><ul>
+<li><a class="reference internal" href="#module-neurora.stuff">neurora.stuff module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rsa_plot.html"
+                        title="previous chapter">Visualization for Results</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/stuff.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rsa_plot.html" title="Visualization for Results"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Others</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Zitong Lu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>

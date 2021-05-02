@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate the Spatiotemporal Pattern Similarity (STPS) &#8212; NeuroRA 1.1.4.8 documentation</title>
+    <link rel="stylesheet" href="static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calculate the RDM" href="rdm_cal.html" />
+    <link rel="prev" title="Calculate the Inter-Subject Correlation (ISC)" href="isc_cal.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rdm_cal.html" title="Calculate the RDM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="isc_cal.html" title="Calculate the Inter-Subject Correlation (ISC)"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Calculate the Spatiotemporal Pattern Similarity (STPS)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="calculate-the-spatiotemporal-pattern-similarity-stps">
+<h1>Calculate the Spatiotemporal Pattern Similarity (STPS)<a class="headerlink" href="#calculate-the-spatiotemporal-pattern-similarity-stps" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-neurora.stps_cal">
+<span id="neurora-stps-cal-module"></span><h2>neurora.stps_cal module<a class="headerlink" href="#module-neurora.stps_cal" title="Permalink to this headline">¶</a></h2>
+<p>a module for calculating the spatiotemporal pattern similarity based on neural data</p>
+<dl class="py function">
+<dt id="neurora.stps_cal.stps">
+<code class="sig-prename descclassname">neurora.stps_cal.</code><code class="sig-name descname">stps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">label_item</span></em>, <em class="sig-param"><span class="n">label_rf</span></em>, <em class="sig-param"><span class="n">time_win</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">time_step</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stps_cal.stps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the spatiotemporal pattern similarities (STPS) for EEG-like data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array</em>) – The neural data.
+The shape of data must be [n_subs, n_trials, n_chls, n_ts]. n_subs, n_trials, n_chls and n_ts represent the
+number of subjects, the number of trials, the number of channels or regions and the number of time-points.</p></li>
+<li><p><strong>label_item</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials.
+The shape of label_wibi must be [n_trials]. n_trials represents the number of trials.</p></li>
+<li><p><strong>label_rf</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials: Remembered (0) or Forgot (1).
+The shape of label_rf must be [n_trials]. n_trials represents the number of trials. If the trial i is a
+remembered trial, label_rf[i]=0. If the trial j is a forgot trial, label_rf[j]=0.</p></li>
+<li><p><strong>time_win</strong> (<em>int. Default is 20.</em>) – Set a time-window for calculating the STPS for different time-points.
+If time_win=20, that means each calculation process based on 20 time-points.</p></li>
+<li><p><strong>time_step</strong> (<em>int. Default is 1.</em>) – The time step size for each time of calculating.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>stps</strong> – The STPS.
+The shape of stps is [n_subs, 8, n_chls, int((n_ts-time_win)/time_step)+1]. 8 represents eight different
+conditions: 0: Within-Item, 1: Between-Item, 2: Remembered, 3: Forgot, 4: Within-Item&amp;Remembered,
+5: Within-Item&amp;Forgot, 6: Between-Item&amp;Remembered, 7: Between-Item&amp;Forgot.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stps_cal.stps_fmri">
+<code class="sig-prename descclassname">neurora.stps_cal.</code><code class="sig-name descname">stps_fmri</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmri_data</span></em>, <em class="sig-param"><span class="n">label_item</span></em>, <em class="sig-param"><span class="n">label_rf</span></em>, <em class="sig-param"><span class="n">ksize</span><span class="o">=</span><span class="default_value">[3, 3, 3]</span></em>, <em class="sig-param"><span class="n">strides</span><span class="o">=</span><span class="default_value">[1, 1, 1]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stps_cal.stps_fmri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the spatiotemporal pattern similarities (STPS) for fMRI (searchlight)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fmri_data</strong> (<em>array</em>) – The fMRI data.
+The shape of fmri_data must be [n_subs, n_trials, nx, ny, nz]. n_subs, n_trials, nx, ny, nz represent the number
+of subjects, the number of trials &amp; the size of fMRI-img, respectively.</p></li>
+<li><p><strong>label_item</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials.
+The shape of label_item must be [n_trials]. n_trials represents the number of trials.</p></li>
+<li><p><strong>label_rf</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials: Remembered (0) or Forgot (1).
+The shape of label_rf must be [n_trials]. n_trials represents the number of trials. If the trial i is a
+remembered trial, label_rf[i]=0. If the trial j is a forgot trial, label_rf[j]=0.</p></li>
+<li><p><strong>ksize</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>kx</em><em>, </em><em>ky</em><em>, </em><em>kz</em><em>]</em><em> Default is</em><em> [</em><em>3</em><em>, </em><em>3</em><em>, </em><em>3</em><em>]</em><em></em>) – The size of the calculation unit for searchlight.
+kx, ky, kz represent the number of voxels along the x, y, z axis.</p></li>
+<li><p><strong>strides</strong> (<em>array</em><em> or </em><em>list</em><em> [</em><em>sx</em><em>, </em><em>sy</em><em>, </em><em>sz</em><em>]</em><em> Default is</em><em> [</em><em>1</em><em>, </em><em>1</em><em>, </em><em>1</em><em>]</em><em></em>) – The strides for calculating along the x, y, z axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>stps</strong> – The STPS.
+The shape of stps is [n_subs, 8, n_x, n_y, n_z]. 8 represents eight different
+conditions: 0: Within-Item, 1: Between-Item, 2: Remembered, 3: Forgot, 4: Within-Item&amp;Remembered,
+5: Within-Item&amp;Forgot, 6: Between-Item&amp;Remembered, 7: Between-Item&amp;Forgot. n_x, n_y, n_z represent the number
+of calculation units for searchlight along the x, y, z axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The size of the calculation units should at least be [3, 3, 3].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="neurora.stps_cal.stps_fmri_roi">
+<code class="sig-prename descclassname">neurora.stps_cal.</code><code class="sig-name descname">stps_fmri_roi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmri_data</span></em>, <em class="sig-param"><span class="n">mask_data</span></em>, <em class="sig-param"><span class="n">label_item</span></em>, <em class="sig-param"><span class="n">label_rf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#neurora.stps_cal.stps_fmri_roi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the spatiotemporal pattern similarities (STPS) for fMRI (for ROI)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fmri_data</strong> (<em>array</em>) – The fmri data.
+The shape of fmri_data must be [n_subs, n_trials, nx, ny, nz]. n_subs, n_trials, nx, ny, nz represent the number
+of subjects, the number of trials &amp; the size of fMRI-img, respectively.</p></li>
+<li><p><strong>mask_data</strong> (<em>array</em><em> [</em><em>nx</em><em>, </em><em>ny</em><em>, </em><em>nz</em><em>]</em><em></em>) – The mask data for region of interest (ROI).
+The size of the fMRI-img. nx, ny, nz represent the number of voxels along the x, y, z axis.</p></li>
+<li><p><strong>label_item</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials.
+The shape of label_wibi must be [n_trials]. n_trials represents the number of trials.</p></li>
+<li><p><strong>label_rf</strong> (<em>array</em><em> or </em><em>list.</em>) – The label of trials: Remembered (0) or Forgot (1).
+The shape of label_rf must be [n_trials]. n_trials represents the number of trials. If the trial i is a
+remembered trial, label_rf[i]=0. If the trial j is a forgot trial, label_rf[j]=0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>stps</strong> – The STPS.
+The shape of stps is [n_subs, 8]. 8 represents eight different conditions: 0: Within-Item, 1: Between-Item,
+2: Remembered, 3: Forgot, 4: Within-Item&amp;Remembered, 5: Within-Item&amp;Forgot, 6: Between-Item&amp;Remembered,
+7: Between-Item&amp;Forgot.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The size of the calculation units should at least be [3, 3, 3].</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Calculate the Spatiotemporal Pattern Similarity (STPS)</a><ul>
+<li><a class="reference internal" href="#module-neurora.stps_cal">neurora.stps_cal module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="isc_cal.html"
+                        title="previous chapter">Calculate the Inter-Subject Correlation (ISC)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rdm_cal.html"
+                        title="next chapter">Calculate the RDM</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/stps_cal.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rdm_cal.html" title="Calculate the RDM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="isc_cal.html" title="Calculate the Inter-Subject Correlation (ISC)"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NeuroRA 1.1.4.8 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Calculate the Spatiotemporal Pattern Similarity (STPS)</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Zitong Lu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
+  </body>
+</html>
