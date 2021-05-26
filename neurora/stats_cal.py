@@ -5,7 +5,7 @@
 __author__ = 'Zitong Lu'
 
 import numpy as np
-from scipy.stats import ttest_1samp, ttest_rel
+from scipy.stats import ttest_1samp, ttest_rel, ttest_ind
 from neurora.stuff import permutation_test
 
 
@@ -132,7 +132,7 @@ def stats_fmri(corrs, fisherz=True, permutation=False, iter=5000):
 
     if fisherz is True:
 
-        zs = 0.5 * np.log(1+rs)/(1-rs)
+        zs = 0.5 * np.log((1+rs)/(1-rs))
 
     # calculate the statistical results
     for i in range(n_x):
@@ -147,6 +147,160 @@ def stats_fmri(corrs, fisherz=True, permutation=False, iter=5000):
                     stats[i, j, k, 1] = permutation_test(zs[:, i, j, k], np.zeros([subs]), iter=iter)
 
     return stats
+
+
+' a function for conducting the statistical analysis for results of fMRI data (searchlight) within group '
+
+def stats_fmri_compare_withingroup(corrs1, corrs2, fisherz=True, permutation=False, iter=5000):
+
+    """
+    Conduct the statistical analysis for results of fMRI data (searchlight) (within group: corrs1 > corrs2)
+
+    Parameters
+    ----------
+    corrs1 : array
+        The correlation coefficients under condition 1.
+        The shape of corrs must be [n_subs, n_x, n_y, n_z, 2]. n_subs, n_x, n_y, n_z represent the number of subjects,
+        the number of calculation units for searchlight along the x, y, z axis and 2 represents a r-value and a p-value.
+    corrs2 : array
+        The correlation coefficients under condition 2.
+        The shape of corrs must be [n_subs, n_x, n_y, n_z, 2]. n_subs, n_x, n_y, n_z represent the number of subjects,
+        the number of calculation units for searchlight along the x, y, z axis and 2 represents a r-value and a p-value.
+    fisherz : bool True or False. Default is True.
+        Conduct Fisher-Z transform.
+    permutation : bool True or False. Default is False.
+        Use permutation test or not.
+    iter : int. Default is 5000.
+        The times for iteration.
+
+    Returns
+    -------
+    stats : array
+        The statistical results.
+        The shape of stats is [n_x, n_y, n_z, 2]. n_x, n_y, n_z represent the number of calculation units for
+        searchlight along the x, y, z axis and 2 represents a t-value and a p-value.
+
+    Notes
+    -----
+    n_subs must >= 6.
+    This function can be used for the results of searchlight fMRI NPS and searchlight fMRI RDM-correlations.
+    """
+
+    if len(np.shape(corrs1)) != 5 or len(np.shape(corrs2)) != 5:
+
+        return "Invalid input!"
+
+    # get the number of subjects
+    subs = np.shape(corrs1)[0]
+
+    # subs>=6
+    if subs < 6:
+        return print("the number of subjects is too small!")
+
+    # get the number of the calculation units in the x, y, z directions
+    n_x, n_y, n_z = np.shape(corrs1)[1:4]
+
+    # initialize the corrs
+    stats = np.zeros([n_x, n_y, n_z, 2], dtype=np.float)
+
+    # get r-map
+    rs1 = corrs1[:, :, :, :, 0]
+    rs2 = corrs2[:, :, :, :, 0]
+
+    if fisherz is True:
+
+        zs1 = 0.5 * np.log((1+rs1)/(1-rs1))
+        zs2 = 0.5 * np.log((1+rs2)/(1-rs2))
+
+    # calculate the statistical results
+    for i in range(n_x):
+        for j in range(n_y):
+            for k in range(n_z):
+
+                # t test
+                stats[i, j, k] = ttest_rel(zs1[:, i, j, k], zs2[:, i, j, k], alternative="greater")
+
+                if permutation == True:
+
+                    stats[i, j, k, 1] = permutation_test(zs1[:, i, j, k], zs2[:, i, j, k], iter=iter)
+
+    return stats
+
+
+' a function for conducting the statistical analysis for results of fMRI data (searchlight) between two groups'
+
+def stats_fmri_compare_betweengroups(corrs1, corrs2, fisherz=True, permutation=False, iter=5000):
+
+    """
+    Conduct the statistical analysis for results of fMRI data (searchlight) (between 2 groups: group1 > group2)
+
+    Parameters
+    ----------
+    corrs1 : array
+        The correlation coefficients for group 1.
+        The shape of corrs must be [n_subs, n_x, n_y, n_z, 2]. n_subs, n_x, n_y, n_z represent the number of subjects,
+        the number of calculation units for searchlight along the x, y, z axis and 2 represents a r-value and a p-value.
+    corrs2 : array
+        The correlation coefficients for group 2.
+        The shape of corrs must be [n_subs, n_x, n_y, n_z, 2]. n_subs, n_x, n_y, n_z represent the number of subjects,
+        the number of calculation units for searchlight along the x, y, z axis and 2 represents a r-value and a p-value.
+    fisherz : bool True or False. Default is True.
+        Conduct Fisher-Z transform.
+    permutation : bool True or False. Default is False.
+        Use permutation test or not.
+    iter : int. Default is 5000.
+        The times for iteration.
+
+    Returns
+    -------
+    stats : array
+        The statistical results.
+        The shape of stats is [n_x, n_y, n_z, 2]. n_x, n_y, n_z represent the number of calculation units for
+        searchlight along the x, y, z axis and 2 represents a t-value and a p-value.
+
+    Notes
+    -----
+    n_subs must >= 6.
+    This function can be used for the results of searchlight fMRI NPS and searchlight fMRI RDM-correlations.
+    """
+
+    if len(np.shape(corrs1)) != 5 or len(np.shape(corrs2)) != 5:
+        return "Invalid input!"
+
+    # get the number of subjects
+    subs1 = np.shape(corrs1)[0]
+    subs2 = np.shape(corrs2)[0]
+
+    # subs>=6
+    if subs1 < 6 or subs2 < 6:
+        return print("the number of subjects is too small!")
+
+    # get the number of the calculation units in the x, y, z directions
+    n_x, n_y, n_z = np.shape(corrs1)[1:4]
+
+    # initialize the corrs
+    stats = np.zeros([n_x, n_y, n_z, 2], dtype=np.float)
+
+    # get r-map
+    rs1 = corrs1[:, :, :, :, 0]
+    rs2 = corrs2[:, :, :, :, 0]
+
+    if fisherz is True:
+        zs1 = 0.5 * np.log((1 + rs1) / (1 - rs1))
+        zs2 = 0.5 * np.log((1 + rs2) / (1 - rs2))
+
+    # calculate the statistical results
+    for i in range(n_x):
+        for j in range(n_y):
+            for k in range(n_z):
+
+                # t test
+                stats[i, j, k] = ttest_ind(zs1[:, i, j, k], zs2[:, i, j, k], alternative="greater")
+
+                if permutation == True:
+                    stats[i, j, k, 1] = permutation_test(zs1[:, i, j, k], zs2[:, i, j, k], iter = iter)
+
+                    return stats
 
 
 ' a function for conducting the statistical analysis for results of fMRI data (ISC searchlight) '

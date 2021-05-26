@@ -203,8 +203,9 @@ def fdr_correct(p, p_threshold):
         for j in range(py):
             for k in range(pz):
 
-                if (math.isnan(p[i, j, k]) == False) and (p[i, j, k] < p_threshold):
-                    fdrp[i, j, k] = pcluster[m]
+                if math.isnan(p[i, j, k]) == False:
+                    if p[i, j, k] < p_threshold:
+                        fdrp[i, j, k] = pcluster[m]
                     m = m + 1
 
     print("finished FDR correct")
@@ -214,7 +215,7 @@ def fdr_correct(p, p_threshold):
 
 ' a function for Cluster-wise FWE-correction for fMRI RSA results '
 
-def cluster_fwe_correct(p, p_threshold):
+def cluster_fwe_correct(p, p_threshold1, p_threshold2):
 
     """
     Cluster-wise FWE correction for fMRI RSA results
@@ -223,8 +224,10 @@ def cluster_fwe_correct(p, p_threshold):
     ----------
     p : array
         The p-value map (3-D).
-    p_threshold: string
-        The p threshold.
+    p_threshold1: string
+        The voxel-wise p threshold.
+    p_threshold2: string
+        The cluster-wise p threshold
 
     Returns
     -------
@@ -236,45 +239,54 @@ def cluster_fwe_correct(p, p_threshold):
     py = np.shape(p)[1]
     pz = np.shape(p)[2]
 
-    n = 0
-
     p01 = np.zeros([px, py, pz])
 
     for i in range(px):
         for j in range(py):
             for k in range(pz):
-
-                if (math.isnan(p[i, j, k]) == False):
-                    n = n + 1
-                if p[i, j, k] < p_threshold:
+                if p[i, j, k] < p_threshold1:
                     p01[i, j, k] = 1
 
-    permutation_voxels = np.zeros([10000])
-    for k in range(10000):
-        pi = np.copy(a)
-        np.random.shuffle(np.reshape(pi, [3 * 3 * 3]))
-        pi = np.reshape(pi, [3, 3, 3])
+    print("Cluster-wise FWE correction")
+
+    permutation_voxels = np.zeros([1000])
+    for k in range(1000):
+
+        # show the progressbar
+        percent = (k+1) / 1000 * 100
+        show_progressbar("Correcting", percent)
+
+        pi = np.copy(p01)
+        pi = np.reshape(pi, [px * py * pz])
+        indexk = np.arange(0, px * py * pz)
+        np.random.shuffle(indexk)
+        pi = pi[indexk]
+        pi = np.reshape(pi, [px, py, pz])
         labels = label(pi, connectivity=1)
         nclusters = int(np.max(labels))
-        voxelsinluster = np.zeros([nclusters], dtype=int)
-        for i in range(nclusters):
-            voxelsinluster[i] = str(labels.tolist()).count(str(i + 1))
-        permutation_voxels[k] = max(voxelsinluster)
+        voxelsinluster = np.zeros([nclusters + 1], dtype=int)
+        labels = np.reshape(labels, [px * py * pz])
+        for i in range(px * py * pz):
+            voxelsinluster[labels[i]] = voxelsinluster[labels[i]] + 1
+        permutation_voxels[k] = max(voxelsinluster[1:])
+
+    print("\n")
 
     permutation_voxels = np.sort(permutation_voxels)
-    voxels_threshold = permutation_voxels[int(10000*(1-p_threshold))]
+    voxels_threshold = permutation_voxels[int(1000*(1-p_threshold2))]
 
     labels = label(p01, connectivity=1)
     nclusters = int(np.max(labels))
-    voxelsinluster = np.zeros([nclusters], dtype=int)
-    for i in range(nclusters):
-        voxelsinluster[i] = str(labels.tolist()).count(str(i+1))
+    voxelsinluster = np.zeros([nclusters + 1], dtype=int)
+    labels = np.reshape(labels, [px * py * pz])
+    for i in range(px * py * pz):
+        voxelsinluster[labels[i]] = voxelsinluster[labels[i]] + 1
+    voxelsinluster = voxelsinluster[1:]
+    labels = np.reshape(labels, [px, py, pz])
 
     clusterp = np.zeros([nclusters])
     for i in range(nclusters):
-        clusterp[i] = (10000 - np.max(np.array(np.where(np.sort(np.append(permutation_voxels, voxelsinluster[i])) == voxelsinluster[i])))) / 10000
-
-    index = np.argsort(clusterp)
+        clusterp[i] = (1000 - np.max(np.array(np.where(np.sort(np.append(permutation_voxels, voxelsinluster[i])) == voxelsinluster[i])))) / 1000
 
     clusterp = clusterp * nclusters
 
@@ -285,17 +297,17 @@ def cluster_fwe_correct(p, p_threshold):
             for k in range(pz):
 
                 if (math.isnan(p[i, j, k]) == False) and labels[i, j, k] != 0\
-                        and clusterp[labels[i, j, k]-1] < p_threshold and voxelsinluster[labels[i, j, k]-1] >= voxels_threshold:
-                    clusterfwep[i, j, k] = clusterp[labels[i, j, k]]
+                        and clusterp[labels[i, j, k]-1] < p_threshold1 and voxelsinluster[labels[i, j, k]-1] >= voxels_threshold:
+                    clusterfwep[i, j, k] = clusterp[labels[i, j, k]-1]
 
-    print("finished Cluster-wise FWE correct")
+    print("finished Cluster-wise FWE correction")
 
     return clusterfwep
 
 
 ' a function for Cluster-wise FDR-correction for fMRI RSA results '
 
-def cluster_fdr_correct(p, p_threshold):
+def cluster_fdr_correct(p, p_threshold1, p_threshold2):
 
     """
     Cluster-wise FDR correction for fMRI RSA results
@@ -304,8 +316,10 @@ def cluster_fdr_correct(p, p_threshold):
     ----------
     p : array
         The p-value map (3-D).
-    p_threshold: string
-        The p threshold.
+    p_threshold1: string
+        The voxel-wise p threshold.
+    p_threshold2: string
+        The cluster-wise p threshold
 
     Returns
     -------
@@ -317,43 +331,54 @@ def cluster_fdr_correct(p, p_threshold):
     py = np.shape(p)[1]
     pz = np.shape(p)[2]
 
-    n = 0
-
     p01 = np.zeros([px, py, pz])
 
     for i in range(px):
         for j in range(py):
             for k in range(pz):
-
-                if (math.isnan(p[i, j, k]) == False):
-                    n = n + 1
-                if p[i, j, k] < p_threshold:
+                if p[i, j, k] < p_threshold1:
                     p01[i, j, k] = 1
 
-    permutation_voxels = np.zeros([10000])
-    for k in range(10000):
-        pi = np.copy(a)
-        np.random.shuffle(np.reshape(pi, [3 * 3 * 3]))
-        pi = np.reshape(pi, [3, 3, 3])
+    print("Cluster-wise FDR correction")
+
+    permutation_voxels = np.zeros([1000])
+    for k in range(1000):
+
+        # show the progressbar
+        percent = (k+1) / 1000 * 100
+        show_progressbar("Correcting", percent)
+
+        pi = np.copy(p01)
+        pi = np.reshape(pi, [px * py * pz])
+        indexk = np.arange(0, px * py * pz)
+        np.random.shuffle(indexk)
+        pi = pi[indexk]
+        pi = np.reshape(pi, [px, py, pz])
         labels = label(pi, connectivity=1)
         nclusters = int(np.max(labels))
-        voxelsinluster = np.zeros([nclusters], dtype=int)
-        for i in range(nclusters):
-            voxelsinluster[i] = str(labels.tolist()).count(str(i + 1))
-        permutation_voxels[k] = max(voxelsinluster)
+        voxelsinluster = np.zeros([nclusters+1], dtype=int)
+        labels = np.reshape(labels, [px*py*pz])
+        for i in range(px*py*pz):
+            voxelsinluster[labels[i]] = voxelsinluster[labels[i]] + 1
+        permutation_voxels[k] = max(voxelsinluster[1:])
+
+    print("\n")
 
     permutation_voxels = np.sort(permutation_voxels)
-    voxels_threshold = permutation_voxels[int(10000*(1-p_threshold))]
+    voxels_threshold = permutation_voxels[int(1000*(1-p_threshold2))]
 
     labels = label(p01, connectivity=1)
     nclusters = int(np.max(labels))
-    voxelsinluster = np.zeros([nclusters], dtype=int)
-    for i in range(nclusters):
-        voxelsinluster[i] = str(labels.tolist()).count(str(i+1))
+    voxelsinluster = np.zeros([nclusters+1], dtype=int)
+    labels = np.reshape(labels, [px*py*pz])
+    for i in range(px*py*pz):
+        voxelsinluster[labels[i]] = voxelsinluster[labels[i]] + 1
+    voxelsinluster = voxelsinluster[1:]
+    labels = np.reshape(labels, [px, py, pz])
 
     clusterp = np.zeros([nclusters])
     for i in range(nclusters):
-        clusterp[i] = (10000 - np.max(np.array(np.where(np.sort(np.append(permutation_voxels, voxelsinluster[i])) == voxelsinluster[i])))) / 10000
+        clusterp[i] = (1000 - np.max(np.array(np.where(np.sort(np.append(permutation_voxels, voxelsinluster[i])) == voxelsinluster[i])))) / 1000
 
     index = np.argsort(clusterp)
 
@@ -367,10 +392,10 @@ def cluster_fdr_correct(p, p_threshold):
             for k in range(pz):
 
                 if (math.isnan(p[i, j, k]) == False) and labels[i, j, k] != 0\
-                        and clusterp[labels[i, j, k]-1] < p_threshold and voxelsinluster[labels[i, j, k]-1] >= voxels_threshold:
-                    clusterfdrp[i, j, k] = clusterp[labels[i, j, k]]
+                        and clusterp[labels[i, j, k]-1] < p_threshold1 and voxelsinluster[labels[i, j, k]-1] >= voxels_threshold:
+                    clusterfdrp[i, j, k] = clusterp[labels[i, j, k]-1]
 
-    print("finished Cluster-wise FDR correct")
+    print("finished Cluster-wise FDR correction")
 
     return clusterfdrp
 
@@ -418,7 +443,6 @@ def correct_by_threshold(img, threshold):
             for k in range(sz-nlarge+1):
 
                 listlarge = list(np.reshape(img[i:i+nlarge, j:j+nlarge, k:k+nlarge], [nlarge*nlarge*nlarge]))
-                print(listlarge.count(0))
 
                 if listlarge.count(0) < nlarge*nlarge*nlarge:
 
@@ -449,15 +473,12 @@ def correct_by_threshold(img, threshold):
                                 index1 = index1 + 1
 
                     nex = nlarge * nlarge * nlarge - nsmall * nsmall * nsmall
-                    print("index1:"+str(index1))
 
                     if index1 == nex:
-                        print("**************************")
                         unit = img[i+1:i+1+nsmall, j+1:j+1+nsmall, k+1:k+1+nsmall]
                         unit = np.reshape(unit, [nsmall*nsmall*nsmall])
                         list_internal = list(unit)
                         index2 = nsmall*nsmall*nsmall-list_internal.count(0)
-                        print(index1, index2)
 
                         if index2 < threshold:
                             img[i+1:i+1+nsmall, j]
@@ -584,7 +605,7 @@ def position_to_mni(point, affine):
     j = point[1]
     k = point[2]
 
-    x = affine[0, 3] + i * affine[0, 0] - affine[0, 0]
+    x = -affine[0, 3] + i * affine[0, 0] - affine[0, 0]
     y = affine[1, 3] + j * affine[1, 1] - affine[1, 1]
     z = affine[2, 3] + k * affine[2, 2] - affine[2, 2]
 
@@ -593,7 +614,34 @@ def position_to_mni(point, affine):
     return newpoint
 
 
-' a function for convert data of MNI template to your data template '
+' a function for project the position in MNI coordinate system to the position of a point in matrix coordinate system '
+
+def mniposition_to(mnipoint, affine):
+
+    """
+    project the position in MNI coordinate system to the position of a point in matrix coordinate system
+
+    Parameters
+    ----------
+    point : list or array
+        The position in MNI coordinate system.
+    affine : array or list
+        The position information of the fMRI-image array data in a reference space.
+
+    Returns
+    -------
+    newpoint : array
+        The position in matrix coordinate system.
+    """
+
+    mx = int(float((mnipoint[0] - affine[0, 3])/affine[0, 0]))
+    my = int(float((mnipoint[1] - affine[1, 3])/affine[1, 1]))
+    mz = int(float((mnipoint[2] - affine[2, 3])/affine[2, 2]))
+
+    return mx, my, mz
+
+
+' a function for convert data of the mask template to your data template '
 
 def mask_to(mask, size, affine, filename=None):
 
@@ -622,13 +670,7 @@ def mask_to(mask, size, affine, filename=None):
     ny = data.shape[1]
     nz = data.shape[2]
 
-    print("******")
-    print(nx, ny, nz)
-
     maskaffine = nib.load(mask).affine
-
-    print(maskaffine)
-    print(maskaffine[0, 0], maskaffine[1, 1], maskaffine[2, 2])
 
     newdata = np.zeros(size, dtype=np.float)
 
@@ -639,9 +681,9 @@ def mask_to(mask, size, affine, filename=None):
                     mx = maskaffine[0, 3]+(i-1)*maskaffine[0, 0]
                     my = maskaffine[1, 3]+(j-1)*maskaffine[1, 1]
                     mz = maskaffine[2, 3]+(k-1)*maskaffine[2, 2]
-                    x = int(float((mx-affine[0, 3])/affine[0, 0]))+1
-                    y = int(float((my-affine[1, 3])/affine[1, 1]))+1
-                    z = int(float((mz-affine[2, 3])/affine[2, 2]))+1
+                    x = int(float((mx-affine[0, 3])/affine[0, 0]))
+                    y = int(float((my-affine[1, 3])/affine[1, 1]))
+                    z = int(float((mz-affine[2, 3])/affine[2, 2]))
                     if x < size[0] and y < size[1] and z < size[2]:
                         newdata[x, y, z] = data[i, j, k]
 

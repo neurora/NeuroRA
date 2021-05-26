@@ -113,6 +113,7 @@ def nps_fmri(fmri_data, ksize=[3, 3, 3], strides=[1, 1, 1]):
     ksize : array or list [kx, ky, kz]. Default is [3, 3, 3].
         The size of the calculation unit for searchlight.
         kx, ky, kz represent the number of voxels along the x, y, z axis.
+        kx, ky, kz should be odd.
     strides : array or list [sx, sy, sz]. Default is [1, 1, 1].
         The strides for calculating along the x, y, z axis.
 
@@ -134,14 +135,6 @@ def nps_fmri(fmri_data, ksize=[3, 3, 3], strides=[1, 1, 1]):
 
         return "Invalid input!"
 
-    if kx+ky+kz < 9:
-
-        print("\nThe size of the calculation units is too small.\n")
-
-        return "Invalid size of ksize!"
-
-    print("\nComputing NPS")
-
     # get the number of subjects and the size of the fMRI-img
     nsubs, nx, ny, nz = np.shape(fmri_data)[1:]
 
@@ -149,6 +142,14 @@ def nps_fmri(fmri_data, ksize=[3, 3, 3], strides=[1, 1, 1]):
     kx = ksize[0]
     ky = ksize[1]
     kz = ksize[2]
+
+    if kx+ky+kz < 9:
+
+        print("\nThe size of the calculation units is too small.\n")
+
+        return "Invalid size of ksize!"
+
+    print("\nComputing NPS")
 
     # strides for calculating along the x, y, z axis
     sx = strides[0]

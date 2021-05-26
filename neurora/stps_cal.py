@@ -198,6 +198,7 @@ def stps_fmri(fmri_data, label_item, label_rf, ksize=[3, 3, 3], strides=[1, 1, 1
     ksize : array or list [kx, ky, kz]. Default is [3, 3, 3].
         The size of the calculation unit for searchlight.
         kx, ky, kz represent the number of voxels along the x, y, z axis.
+        kx, ky, kz should be odd.
     strides : array or list [sx, sy, sz]. Default is [1, 1, 1].
         The strides for calculating along the x, y, z axis.
 
