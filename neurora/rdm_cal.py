@@ -697,7 +697,7 @@ def fmriRDM_roi(fmri_data, mask_data, sub_opt=1, method="correlation", abs=False
 
                 # not 0 or NaN
                 if (mask_data[i, j, k] != 0) and (math.isnan(mask_data[i, j, k]) == False)\
-                        and (np.isnan(fmri_data[:, :, :, j, k]).any() == False):
+                        and (np.isnan(fmri_data[:, :, i, j, k]).any() == False):
                     n = n + 1
 
     # initialize the data for calculating the RDM
@@ -717,7 +717,7 @@ def fmriRDM_roi(fmri_data, mask_data, sub_opt=1, method="correlation", abs=False
 
                         # not 0 or NaN
                         if (mask_data[i, j, k] != 0) and (math.isnan(mask_data[i, j, k]) == False)\
-                                and (np.isnan(fmri_data[:, :, :, j, k]).any() == False):
+                                and (np.isnan(fmri_data[:, :, i, j, k]).any() == False):
                             data[p, q, n] = fmri_data[p, q, i, j, k]
                             n = n + 1
 
