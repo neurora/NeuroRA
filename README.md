@@ -1,3 +1,6 @@
+# Latest NeuroRA version and New updates please see: **https://github.com/ZitongLu1996/NeuroRA**!
+
+
 ![ ](img/logo.jpg " ")
 
 #NeuroRA
